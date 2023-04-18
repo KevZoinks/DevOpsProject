@@ -1,40 +1,32 @@
 name: CI Pipeline
-
 on:
   push:
     branches:
       - main
-  pull_request:
-
+  pull_request: null
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install dependencies
-      working-directory: ./hello-world
-      run: npm ci
-
-    - name: Run tests
-      working-directory: ./hello-world
-      run: npm test
-
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        working-directory: ./hello-world
+        run: npm ci
+      - name: Run tests
+        working-directory: ./hello-world
+        run: npm test
   build-and-run-container:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ job.status == 'success' }}
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
     - name: Build Docker image
       working-directory: ./hello-world
       run: docker build -t hello-world .
-
     - name: Run Docker container
       working-directory: ./hello-world
       run: docker run -p 4000:3000 hello-world
