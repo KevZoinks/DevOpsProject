@@ -1,0 +1,28 @@
+- name: Modify code inside Docker container
+  hosts: localhost
+  tasks:
+    - name: Start Docker container
+      community.docker.docker_container:
+        name: hop_mur
+        image: devops
+        state: started
+
+    - name: Copy App file to container
+      community.docker.docker_container:
+        name: hop_mur
+        copy:
+          src: /home/kvnvn/Documents/PJ's/DevOpsProject/modified_files/App.js
+          dest: /app/src/App.js
+
+    - name: Copy test file to container
+      community.docker.docker_container:
+        name: hop_mur
+        copy:
+          src: /home/kvnvn/Documents/PJ's/DevOpsProject/modified_files/App.test.js
+          dest: /app/src/App.test.js
+
+    - name: Run command in container
+      community.docker.docker_container:
+        name: hop_mur
+        command: "npm run start &&"
+        state: started
