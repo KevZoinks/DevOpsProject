@@ -25,7 +25,6 @@ jobs:
   build-and-run-container:
     needs: test
     runs-on: ubuntu-latest
-    if: ${{ job.status == 'success' }}
 
     steps:
     - name: Checkout code
@@ -37,4 +36,4 @@ jobs:
 
     - name: Run Docker container
       working-directory: ./hello-world
-      run: docker run -p 3000:3000 hello-world
+      run: docker run -d -p 3000:3000 hello-world
